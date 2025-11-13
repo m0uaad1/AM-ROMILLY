@@ -2,25 +2,36 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>AM ROMILLY - Réparation de montres à Romilly-sur-Seine</title>
+  <title>AM ROMILLY - Atelier de réparation horlogère</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Atelier AM ROMILLY - Spécialiste de la réparation, rénovation et entretien de montres à Romilly-sur-Seine, Grand Est." />
+  <meta
+    name="description"
+    content="AM ROMILLY - Atelier de réparation horlogère à Romilly-sur-Seine. Réparation, révision, polissage et restauration de montres et horloges de prestige."
+  />
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
 
   <style>
     :root {
-      --bg: #050712;
-      --bg-alt: #0c1020;
+      --bg-dark: #050509;
+      --bg-card: rgba(10, 10, 18, 0.9);
+      --bg-soft: rgba(15, 15, 25, 0.95);
+      --primary: #f4cf6a;
+      --primary-soft: rgba(244, 207, 106, 0.2);
       --accent: #ffb347;
-      --accent-soft: rgba(255, 179, 71, 0.25);
-      --accent-strong: #ff9f1c;
-      --text: #f7f7ff;
-      --muted: #9ca3af;
-      --card-bg: rgba(10, 14, 35, 0.9);
-      --border: rgba(255, 255, 255, 0.08);
-      --danger: #ff4b5c;
+      --text-main: #f7f7f7;
+      --text-muted: #b5b5c8;
+      --border-soft: rgba(255, 255, 255, 0.07);
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.75);
+      --radius-xl: 26px;
+      --transition-fast: 0.25s ease;
+      --transition-med: 0.4s ease;
     }
 
     * {
@@ -34,596 +45,1506 @@
     }
 
     body {
-      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top left, #1b1d3b 0, #050712 45%, #020308 100%);
-      color: var(--text);
-      min-height: 100vh;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 0% 0%, #31241f 0, transparent 45%),
+        radial-gradient(circle at 100% 100%, #24273b 0, transparent 50%),
+        linear-gradient(135deg, #050509, #05050b 40%, #050509);
+      color: var(--text-main);
       overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
     }
 
-    /* ------ Global Layout ------ */
-
-    .page-background-orbit {
+    /* Animated gradient halo */
+    body::before {
+      content: "";
       position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .orb {
-      position: absolute;
-      border-radius: 999px;
-      filter: blur(40px);
-      opacity: 0.5;
+      inset: -40%;
+      background: conic-gradient(
+        from 200deg,
+        rgba(244, 207, 106, 0.08),
+        transparent,
+        rgba(255, 179, 71, 0.16),
+        transparent,
+        rgba(100, 216, 255, 0.1),
+        transparent
+      );
+      filter: blur(70px);
+      opacity: 0.85;
       mix-blend-mode: screen;
-      animation: float 18s ease-in-out infinite alternate;
+      z-index: -2;
+      animation: haloSpin 22s linear infinite;
     }
 
-    .orb.orb-1 {
-      width: 320px;
-      height: 320px;
-      background: #ff9f1c;
-      top: -80px;
-      left: -80px;
-    }
-
-    .orb.orb-2 {
-      width: 260px;
-      height: 260px;
-      background: #00f5d4;
-      bottom: -60px;
-      right: -60px;
-      animation-duration: 22s;
-    }
-
-    .orb.orb-3 {
-      width: 220px;
-      height: 220px;
-      background: #4361ee;
-      top: 40%;
-      left: 65%;
-      animation-duration: 26s;
-    }
-
-    @keyframes float {
+    @keyframes haloSpin {
       0% {
-        transform: translate3d(0, 0, 0) scale(1);
-      }
-      50% {
-        transform: translate3d(30px, -20px, 0) scale(1.05);
+        transform: rotate(0deg);
       }
       100% {
-        transform: translate3d(-30px, 20px, 0) scale(0.98);
+        transform: rotate(360deg);
       }
     }
 
-    .noise-overlay {
-      pointer-events: none;
-      position: fixed;
-      inset: 0;
-      opacity: 0.06;
-      background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-      mix-blend-mode: soft-light;
-      z-index: -1;
-    }
-
-    .container {
-      width: min(1120px, 100% - 2.5rem);
+    /* Layout */
+    .page {
+      max-width: 1180px;
       margin: 0 auto;
+      padding: 22px 18px 60px;
     }
 
+    @media (min-width: 900px) {
+      .page {
+        padding: 26px 24px 80px;
+      }
+    }
+
+    /* Glass nav */
     header {
       position: sticky;
       top: 0;
-      z-index: 20;
-      background: linear-gradient(to bottom, rgba(5, 7, 18, 0.92), rgba(5, 7, 18, 0.75), transparent);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      z-index: 50;
+      backdrop-filter: blur(26px);
     }
 
     .nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1.1rem 0;
+      gap: 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.08),
+          rgba(0, 0, 0, 0.95)
+        ),
+        radial-gradient(circle at top left, rgba(244, 207, 106, 0.14), transparent 55%);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.85);
+      padding: 10px 16px;
+      margin-bottom: 20px;
     }
 
-    .logo {
+    .nav-left {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 10px;
     }
 
-    .logo-mark {
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: radial-gradient(circle at 30% 20%, #ffb347 0, #ff9f1c 35%, #0b1020 100%);
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      background: radial-gradient(circle at 30% 20%, #fff 0, #f4cf6a 34%, #241d15 80%);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: 0 0 24px rgba(244, 207, 106, 0.8);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.85);
     }
 
-    .logo-mark::before {
+    .brand-mark::after {
       content: "";
       position: absolute;
-      inset: 40%;
+      inset: 2px;
       border-radius: inherit;
-      border: 1px solid rgba(255, 255, 255, 0.45);
-      opacity: 0.65;
+      border: 1px solid rgba(0, 0, 0, 0.45);
     }
 
-    .logo-mark span {
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      font-size: 0.75rem;
-    }
-
-    .logo-text {
+    .brand-text {
       display: flex;
       flex-direction: column;
-      gap: 0.1rem;
+      line-height: 1.1;
     }
 
-    .logo-text strong {
-      font-size: 1rem;
-      letter-spacing: 0.08em;
+    .brand-name {
+      letter-spacing: 0.2em;
       text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fdf3d2;
     }
 
-    .logo-text small {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--muted);
+    .brand-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
     }
 
-    .nav-links {
+    nav ul {
       display: flex;
-      gap: 1.4rem;
       align-items: center;
-      font-size: 0.9rem;
+      gap: 12px;
+      list-style: none;
+      font-size: 13px;
+      padding: 0 6px;
     }
 
-    .nav-links a {
-      color: var(--muted);
+    nav a {
       text-decoration: none;
+      color: var(--text-muted);
+      padding: 7px 10px;
+      border-radius: 999px;
       position: relative;
-      padding-bottom: 0.1rem;
-      transition: color 0.25s ease;
+      overflow: hidden;
+      transition: color var(--transition-fast), background var(--transition-fast),
+        transform var(--transition-fast);
     }
 
-    .nav-links a::after {
+    nav a::before {
       content: "";
       position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0%;
-      height: 2px;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(244, 207, 106, 0.75), transparent 55%);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+      z-index: -1;
+    }
+
+    nav a:hover {
+      color: #0a0805;
+      background: rgba(244, 207, 106, 0.95);
+      transform: translateY(-1px);
+    }
+
+    nav a:hover::before {
+      opacity: 1;
+    }
+
+    nav a.active {
+      color: #050509;
+      background: var(--primary);
+    }
+
+    .nav-cta {
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--accent), #ff4b5c);
-      transition: width 0.25s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    .btn-primary {
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: radial-gradient(circle at top left, #ffb347 0, #ff9f1c 35%, #f97316 60%, #0b1020 100%);
-      color: #1a1306;
-      padding: 0.55rem 1.4rem;
-      cursor: pointer;
+      background: radial-gradient(circle at 0 0, #fff 0, #f4cf6a 40%, #f18825 100%);
+      color: #000;
+      padding: 8px 16px;
+      border: none;
+      font-size: 13px;
       font-weight: 600;
-      font-size: 0.85rem;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      gap: 6px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.85);
+      transform-origin: center;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+        filter var(--transition-fast);
     }
 
-    .btn-primary span.icon {
-      font-size: 1rem;
+    .nav-cta span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #2f2118;
     }
 
-    .btn-primary:hover {
-      transform: translateY(-1px) scale(1.01);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75);
+    .nav-cta:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.9);
+      filter: brightness(1.04);
+    }
+
+    /* HERO */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 26px;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 840px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .hero-left {
+      padding: 26px 22px;
+      background: linear-gradient(
+          145deg,
+          rgba(244, 207, 106, 0.04),
+          rgba(14, 14, 24, 0.96)
+        ),
+        radial-gradient(circle at 120% -20%, rgba(244, 207, 106, 0.14), transparent 60%);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(244, 207, 106, 0.22);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0 0, rgba(244, 207, 106, 0.2), transparent 55%);
+      opacity: 0;
+      animation: heroGlow 6s ease-in-out infinite;
+    }
+
+    @keyframes heroGlow {
+      0%,
+      60% {
+        opacity: 0;
+        transform: translate3d(-15%, -10%, 0) scale(0.9);
+      }
+      80% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 207, 106, 0.45);
+      background: rgba(12, 10, 5, 0.7);
+      font-size: 11px;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #fff, #30e39b);
+      box-shadow: 0 0 14px rgba(48, 227, 155, 0.9);
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(32px, 4vw, 40px);
+      line-height: 1.1;
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    h1 span.highlight {
+      color: var(--primary);
+      text-shadow: 0 0 22px rgba(244, 207, 106, 0.7);
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      max-width: 33rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 22px;
+      font-size: 12px;
+    }
+
+    .hero-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .hero-meta-pill {
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      border: 1px solid rgba(244, 207, 106, 0.9);
+      box-shadow: 0 0 12px rgba(244, 207, 106, 0.8);
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .btn-main,
+    .btn-ghost {
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background var(--transition-med), transform var(--transition-fast),
+        box-shadow var(--transition-fast), color var(--transition-fast);
+    }
+
+    .btn-main {
+      background: radial-gradient(circle at 0 0, #fff 0, #f4cf6a 40%, #f18825 100%);
+      color: #050509;
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.9);
+    }
+
+    .btn-main:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.95);
       filter: brightness(1.05);
     }
 
     .btn-ghost {
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: rgba(10, 10, 30, 0.8);
-      color: var(--text);
-      padding: 0.55rem 1.1rem;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 0.82rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      backdrop-filter: blur(8px);
-      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-main);
+      border: 1px solid rgba(244, 207, 106, 0.3);
     }
 
     .btn-ghost:hover {
-      background: rgba(15, 20, 55, 0.9);
-      border-color: rgba(255, 255, 255, 0.32);
+      background: rgba(244, 207, 106, 0.1);
       transform: translateY(-1px);
     }
 
-    /* ------ Hero ------ */
-
-    main {
-      padding-bottom: 4rem;
+    .hero-contact {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 4px;
     }
 
-    .hero {
-      padding: 3.2rem 0 2.5rem;
+    .hero-contact strong {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* HERO RIGHT (watch display) */
+    .hero-right {
+      position: relative;
+      padding: 22px;
+    }
+
+    .watch-card {
+      position: relative;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.25), transparent 45%),
+        linear-gradient(145deg, #111118, #06060b);
+      border-radius: 32px;
+      border: 1px solid rgba(244, 207, 106, 0.4);
+      overflow: hidden;
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
+      isolation: isolate;
+    }
+
+    .watch-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url("https://avatars.mds.yandex.net/get-altay/5533948/2a0000017d9588cf228bad08c07ccbaf6ee6/XXL_height");
+      background-size: cover;
+      background-position: center;
+      opacity: 0.18;
+      mix-blend-mode: screen;
+      filter: grayscale(0.2);
+      transform: scale(1.2);
+    }
+
+    .watch-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 0, rgba(244, 207, 106, 0.5), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.9), transparent 60%);
+      mix-blend-mode: soft-light;
+      opacity: 0.9;
+    }
+
+    .watch-inner {
+      position: relative;
+      z-index: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-      gap: 3rem;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 18px;
       align-items: center;
     }
 
-    .hero-text {
+    @media (max-width: 600px) {
+      .watch-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .watch-photo-wrap {
       position: relative;
+      padding: 12px;
+      border-radius: 24px;
+      backdrop-filter: blur(16px);
+      background: radial-gradient(circle at 0 0, rgba(244, 207, 106, 0.4), transparent 60%),
+        rgba(4, 4, 8, 0.9);
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
     }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.25rem 0.75rem 0.25rem 0.3rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: linear-gradient(90deg, rgba(8, 12, 40, 0.9), rgba(17, 24, 80, 0.6));
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-bottom: 1.1rem;
-      backdrop-filter: blur(12px);
+    .watch-photo-wrap::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      border-radius: inherit;
+      border: 1px solid rgba(244, 207, 106, 0.45);
+      opacity: 0.2;
+      filter: blur(6px);
     }
 
-    .eyebrow-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: radial-gradient(circle, #22c55e 0, #15803d 60%, #052e16 100%);
-      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.18);
-      animation: pulse 1.7s ease-out infinite;
+    .watch-photo {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      transform: rotate(-10deg) translateY(4px);
+      transform-origin: center 80%;
+      animation: swingWatch 10s ease-in-out infinite;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
     }
 
-    @keyframes pulse {
-      0% {
-        transform: scale(0.9);
-        opacity: 0.7;
-      }
-      60% {
-        transform: scale(1.1);
-        opacity: 1;
-      }
+    .watch-photo img {
+      width: 100%;
+      display: block;
+    }
+
+    @keyframes swingWatch {
+      0%,
       100% {
-        transform: scale(0.9);
-        opacity: 0.7;
+        transform: rotate(-10deg) translateY(4px);
       }
-    }
-
-    .hero h1 {
-      font-size: clamp(2.2rem, 3.1vw, 3rem);
-      line-height: 1.1;
-      letter-spacing: 0.02em;
-      margin-bottom: 1rem;
-    }
-
-    .hero h1 span.accent {
-      background: linear-gradient(120deg, #ffb347 0, #ff9f1c 30%, #ff4b5c 60%, #f97316 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-subtitle {
-      font-size: 0.98rem;
-      color: var(--muted);
-      max-width: 32rem;
-      line-height: 1.6;
-      margin-bottom: 1.4rem;
-    }
-
-    .hero-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1.4rem;
-    }
-
-    .badge {
-      font-size: 0.72rem;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      background: radial-gradient(circle at top left, rgba(255, 179, 71, 0.15), rgba(10, 12, 40, 0.95));
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-      margin-bottom: 1.8rem;
-    }
-
-    .hero-note {
-      font-size: 0.78rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .hero-note .dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 999px;
-      background: rgba(148, 163, 184, 0.8);
-    }
-
-    .hero-stats {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      font-size: 0.8rem;
-    }
-
-    .hero-stat {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-
-    .hero-stat strong {
-      font-size: 1.1rem;
-    }
-
-    .hero-stat span {
-      color: var(--muted);
-    }
-
-    .hero-visual {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      40% {
+        transform: rotate(4deg) translateY(-6px);
+      }
+      70% {
+        transform: rotate(-5deg) translateY(0);
+      }
     }
 
     .watch-orbit {
-      width: 320px;
-      height: 320px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: radial-gradient(circle at 30% 0, rgba(255, 179, 71, 0.3), rgba(5, 7, 18, 1));
+      position: absolute;
+      inset: auto;
+      top: 4px;
+      right: 10px;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 1px dashed rgba(244, 207, 106, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
-      position: relative;
-      overflow: hidden;
-      animation: slow-tilt 14s ease-in-out infinite alternate;
+      animation: orbitSpin 12s linear infinite;
+      opacity: 0.9;
     }
 
-    @keyframes slow-tilt {
+    .watch-orbit-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #f4cf6a;
+      box-shadow: 0 0 16px rgba(244, 207, 106, 0.9);
+    }
+
+    @keyframes orbitSpin {
       0% {
-        transform: rotate3d(0.1, -0.1, 0, 6deg);
-      }
-      50% {
-        transform: rotate3d(-0.1, 0.15, 0, -4deg) translateY(-4px);
-      }
-      100% {
-        transform: rotate3d(0.2, 0.05, 0, 8deg) translateY(2px);
-      }
-    }
-
-    .watch-orbit::before {
-      content: "";
-      position: absolute;
-      inset: 8%;
-      border-radius: inherit;
-      border: 1px dashed rgba(255, 255, 255, 0.32);
-      opacity: 0.6;
-      animation: spin 22s linear infinite;
-    }
-
-    .watch-orbit::after {
-      content: "";
-      position: absolute;
-      inset: 34%;
-      border-radius: inherit;
-      border: 1px solid rgba(15, 23, 42, 0.9);
-      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9);
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .watch-image-wrap {
-      position: relative;
-      width: 70%;
-      aspect-ratio: 3/4;
-      border-radius: 26px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: radial-gradient(circle at 10% 0, rgba(255, 255, 255, 0.08), rgba(15, 23, 42, 1));
-      box-shadow:
-        0 24px 60px rgba(0, 0, 0, 0.9),
-        0 0 0 1px rgba(15, 23, 42, 1);
-      transform: translateY(6px);
-    }
-
-    .watch-image-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transform-origin: center;
-      transform: scale(1.05);
-      transition: transform 0.6s ease;
-    }
-
-    .watch-image-wrap:hover img {
-      transform: scale(1.08) translateY(-4px);
-    }
-
-    .watch-tag {
-      position: absolute;
-      top: 12%;
-      left: -4%;
-      padding: 0.25rem 0.9rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.86);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      display: inline-flex;
-      gap: 0.4rem;
-      align-items: center;
-    }
-
-    .watch-tag span.dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--accent);
-    }
-
-    .watch-chip {
-      position: absolute;
-      bottom: 10%;
-      right: -4%;
-      padding: 0.5rem 0.9rem;
-      border-radius: 18px;
-      background: rgba(10, 16, 40, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      font-size: 0.73rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-      align-items: flex-start;
-      min-width: 160px;
-    }
-
-    .watch-chip strong {
-      font-size: 0.78rem;
-    }
-
-    .watch-chip span {
-      color: var(--muted);
-      font-size: 0.7rem;
-    }
-
-    .orbit-pill {
-      position: absolute;
-      top: 4%;
-      right: 10%;
-      width: 70px;
-      height: 70px;
-      border-radius: 999px;
-      border: 1px dashed rgba(255, 255, 255, 0.26);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      background: radial-gradient(circle at 30% 0, rgba(255, 179, 71, 0.2), transparent);
-      animation: orbit-spin 16s linear infinite;
-    }
-
-    .orbit-pill span {
-      transform: rotate(-18deg);
-      display: inline-block;
-    }
-
-    @keyframes orbit-spin {
-      from {
         transform: rotate(0deg);
       }
-      to {
+      100% {
         transform: rotate(360deg);
       }
     }
 
-    /* ------ Section shared styles ------ */
-
-    section {
-      padding: 3rem 0 0;
+    .watch-info {
+      font-size: 12px;
+      color: #f7f4ea;
     }
 
-    .section-header {
+    .watch-info-title {
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .watch-info h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .watch-tagline {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .watch-points {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .watch-point {
       display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 1.8rem;
+      align-items: center;
+      gap: 8px;
     }
 
-    .section-title {
+    .watch-point span.badge-mini {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 207, 106, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+    }
+
+    .watch-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(9, 14, 7, 0.9);
+      border: 1px solid rgba(95, 214, 113, 0.7);
+      margin-top: 4px;
+    }
+
+    .status-led {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 20%, #fff, #40ff94);
+      box-shadow: 0 0 14px rgba(64, 255, 148, 0.95);
+    }
+
+    /* Sections layout */
+    main {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.05fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 980px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .stack {
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 18px;
     }
 
-    .section-title h2 {
-      font-size: 1.5rem;
+    .card {
+      border-radius: var(--radius-xl);
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      padding: 18px 18px 16px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9);
+      position: relative;
+      overflow: hidden;
     }
 
-    .section-title p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      max-width: 420px;
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(244, 207, 106, 0.22), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
     }
 
-    .section-kicker {
-      font-size: 0.75rem;
-      text-transform: uppercase;
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 12px;
+    }
+
+    .card-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .card-eyebrow {
+      font-size: 11px;
       letter-spacing: 0.16em;
-      color: var(--muted);
+      text-transform: uppercase;
+      color: var(--primary);
     }
 
-    .pill-counter {
-      font-size: 0.75rem;
-      padding: 0.35rem 0.9rem;
+    .card-title {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      padding: 4px 9px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      background: rgba(15, 23, 42, 0.9);
-      color: var(--muted);
+      border: 1px solid rgba(244, 207, 106, 0.3);
+      background: rgba(10, 10, 20, 0.9);
+      color: var(--text-muted);
     }
 
-    /* ------ Services ------ */
+    .card-body {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
 
+    .card-body p + p {
+      margin-top: 6px;
+    }
+
+    /* Services */
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.4rem;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .service-item {
+      border-radius: 18px;
+      padding: 10px 11px;
+      background: radial-gradient(circle at 0 0, rgba(244, 207, 106, 0.25), transparent 55%),
+        rgba(6, 6, 13, 0.95);
+      border: 1px solid rgba(244, 207, 106, 0.3);
+      font-size: 12px;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transform-origin: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .service-item:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+    }
+
+    .service-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .service-chip {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(5, 5, 9, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .service-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Timeline */
+    .steps {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 9px;
+      font-size: 12px;
+      padding: 7px 9px;
+      border-radius: 14px;
+      background: rgba(5, 5, 10, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .step-index {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 207, 106, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--primary);
+    }
+
+    .step span.label {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .step span.time {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(4, 4, 8, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      transform-origin: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transform: scale(1.02);
+      transition: transform 0.35s ease;
+      filter: saturate(1.05) contrast(1.08);
+    }
+
+    .gallery-item::after {
+      content: "Avant / Après";
+      position: absolute;
+      inset: auto 8px 8px 8px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(5, 5, 9, 0.95), rgba(244, 207, 106, 0.75));
+      color: #050509;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.9);
+      border-color: rgba(244, 207, 106, 0.7);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+
+    .gallery-item:hover::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Right column cards */
+    .info-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .info-row + .info-row {
+      margin-top: 14px;
+    }
+
+    .hours-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 5px 10px;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .hours-grid span.day {
+      color: var(--text-muted);
+    }
+
+    .hours-grid span.hour {
+      text-align: right;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 7px;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    .contact-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 11px;
+      background: rgba(6, 6, 14, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+    }
+
+    .contact-label {
+      color: var(--text-muted);
+    }
+
+    .contact-value a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .contact-value a:hover {
+      text-decoration: underline;
+    }
+
+    /* Map pill (fake, decorative) */
+    .map-pill {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 0 0, rgba(244, 207, 106, 0.2), transparent 55%),
+        rgba(4, 4, 11, 0.96);
+      border: 1px solid rgba(244, 207, 106, 0.4);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .map-pill-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .map-pill-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(5, 5, 10, 0.9);
+      width: fit-content;
+    }
+
+    .map-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(244, 207, 106, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .map-dot::before,
+    .map-dot::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 207, 106, 0.7);
+      inset: 5px;
+      opacity: 0.5;
+      animation: ping 2.6s ease-out infinite;
+    }
+
+    .map-dot::after {
+      inset: 11px;
+      opacity: 0.9;
+      animation-delay: 1.2s;
+    }
+
+    @keyframes ping {
+      0% {
+        transform: scale(0.7);
+        opacity: 0.9;
+      }
+      100% {
+        transform: scale(1.3);
+        opacity: 0;
+      }
+    }
+
+    /* Testimonials / guarantees */
+    .ruler {
+      margin-top: 10px;
+      height: 1px;
+      background-image: linear-gradient(
+        to right,
+        transparent,
+        rgba(244, 207, 106, 0.4) 30%,
+        rgba(244, 207, 106, 0.9) 50%,
+        rgba(244, 207, 106, 0.4) 70%,
+        transparent
+      );
+      opacity: 0.7;
+    }
+
+    .guarantees {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+
+    .guarantee-item {
+      padding: 8px 9px;
+      border-radius: 16px;
+      background: rgba(5, 5, 12, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .guarantee-title {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 30px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer span {
+      opacity: 0.95;
+    }
+
+    footer span strong {
+      color: var(--primary);
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Small adjustments */
+    @media (max-width: 600px) {
+      .nav {
+        border-radius: 18px;
+        padding-inline: 12px;
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .hero-left {
+        padding: 20px 16px;
+      }
+
+      main {
+        margin-top: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="nav">
+        <div class="nav-left">
+          <div class="brand-mark">A</div>
+          <div class="brand-text">
+            <div class="brand-name">AM ROMILLY</div>
+            <div class="brand-subtitle">Atelier de réparation horlogère</div>
+          </div>
+        </div>
+
+        <nav>
+          <ul>
+            <li><a href="#accueil" class="active">Accueil</a></li>
+            <li><a href="#atelier">Atelier</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#galerie">Galerie</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+          Prendre rendez-vous
+          <span class="dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="accueil" class="hero-grid">
+      <div class="hero-left reveal">
+        <div class="badge">
+          <div class="badge-dot"></div>
+          <span>Spécialiste montres & horloges à Romilly-sur-Seine</span>
+        </div>
+
+        <h1>
+          Réparez le temps, <span class="highlight">pas vos souvenirs</span>.
+        </h1>
+
+        <p class="hero-subtitle">
+          AM ROMILLY redonne vie à vos montres automatiques, quartz et pièces
+          anciennes avec un savoir-faire minutieux, proche de la haute horlogerie.
+        </p>
+
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <div class="hero-meta-pill"></div>
+            <span>Révision complète &bull; Polissage &bull; Étanchéité</span>
+          </div>
+          <div class="hero-meta-item">
+            <div class="hero-meta-pill"></div>
+            <span>Pièces d’origine lorsque cela est possible</span>
+          </div>
+        </div>
+
+        <div class="hero-buttons">
+          <button
+            class="btn-main"
+            onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"
+          >
+            Demander un devis gratuit
+          </button>
+          <button
+            class="btn-ghost"
+            onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})"
+          >
+            Voir les services
+          </button>
+        </div>
+
+        <div class="hero-contact">
+          <span><strong>Tél :</strong> <a href="tel:+33672566450" style="color:inherit; text-decoration:none;">+33 6 72 56 64 50</a></span>
+          <span><strong>Adresse :</strong> RUE DE LA PAIX 10100, ROMILLY-SUR-SEINE</span>
+          <span><strong>Grand Est, France</strong></span>
+        </div>
+      </div>
+
+      <div class="hero-right reveal">
+        <div class="watch-card">
+          <div class="watch-bg"></div>
+          <div class="watch-overlay"></div>
+          <div class="watch-inner">
+            <div class="watch-photo-wrap">
+              <div class="watch-photo">
+                <img
+                  src="https://i.ebayimg.com/images/g/7nMAAOSwcY9iPU0W/s-l1200.jpg"
+                  alt="Montre de luxe révisée par AM ROMILLY"
+                />
+              </div>
+              <div class="watch-orbit">
+                <div class="watch-orbit-dot"></div>
+              </div>
+            </div>
+            <div class="watch-info">
+              <div class="watch-info-title">Atelier AM ROMILLY</div>
+              <h2>Chaque seconde mérite la précision.</h2>
+              <p class="watch-tagline">
+                De la simple pile à la complication, votre montre passe entre des mains
+                passionnées et expérimentées.
+              </p>
+              <div class="watch-points">
+                <div class="watch-point">
+                  <span class="badge-mini">+</span>
+                  <span>Diagnostic visuel immédiat sur place.</span>
+                </div>
+                <div class="watch-point">
+                  <span class="badge-mini">∞</span>
+                  <span>Suivi après intervention et conseils d’entretien.</span>
+                </div>
+                <div class="watch-point">
+                  <span class="badge-mini">✓</span>
+                  <span>Devis clair avant toute réparation.</span>
+                </div>
+              </div>
+              <div class="watch-status">
+                <span class="status-led"></span>
+                <span>Délai moyen révision classique : 5 à 10 jours ouvrés*</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main>
+      <!-- LEFT COLUMN -->
+      <div class="stack">
+        <!-- Atelier -->
+        <section id="atelier" class="card reveal">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-eyebrow">L'atelier</div>
+              <div class="card-title">Un horloger, un établi, des histoires de famille.</div>
+            </div>
+            <span class="card-tag">ROMILLY-SUR-SEINE</span>
+          </div>
+          <div class="card-body">
+            <p>
+              Chez <strong>AM ROMILLY</strong>, chaque montre est plus qu’un objet : c’est un
+              fragment de votre histoire. Nous prenons le temps de comprendre vos attentes,
+              l’usage de votre montre et sa valeur sentimentale avant d’intervenir.
+            </p>
+            <p>
+              Nous travaillons sur une large gamme&nbsp;: montres contemporaines,
+              anciennes, automatiques, quartz, chronographes, mais aussi certaines horloges
+              et pendules. Les interventions sont réalisées avec des outils adaptés et
+              des techniques inspirées de la haute horlogerie.
+            </p>
+          </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="card reveal">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-eyebrow">Services</div>
+              <div class="card-title">Ce que nous faisons pour votre montre</div>
+            </div>
+            <span class="card-tag">Devis personnalisé</span>
+          </div>
+
+          <div class="card-body">
+            <p>
+              Quelques exemples de prestations proposées. Les prix varient selon la marque,
+              la complexité du mouvement et l’état général de la pièce.
+            </p>
+
+            <div class="services-grid">
+              <div class="service-item">
+                <div class="service-title">
+                  Révision complète
+                  <span class="service-chip">Conseillée tous les 4–6 ans</span>
+                </div>
+                <div class="service-meta">
+                  Démontage, nettoyage, lubrification, réglage & contrôle de marche.
+                </div>
+              </div>
+
+              <div class="service-item">
+                <div class="service-title">
+                  Remplacement de pile
+                  <span class="service-chip">Intervention rapide</span>
+                </div>
+                <div class="service-meta">
+                  Changement de pile, contrôle d’étanchéité lorsque possible.
+                </div>
+              </div>
+
+              <div class="service-item">
+                <div class="service-title">
+                  Polissage / satinage
+                  <span class="service-chip">Boîte & bracelet</span>
+                </div>
+                <div class="service-meta">
+                  Restauration de l’éclat tout en respectant les lignes de la montre.
+                </div>
+              </div>
+
+              <div class="service-item">
+                <div class="service-title">
+                  Changement de pièces
+                  <span class="service-chip">Couronnes, verres…</span>
+                </div>
+                <div class="service-meta">
+                  Remplacement de couronne, verre, joints, boucle, bracelet…
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Processus -->
+        <section class="card reveal">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-eyebrow">Processus</div>
+              <div class="card-title">Comment se déroule une réparation&nbsp;?</div>
+            </div>
+            <span class="card-tag">Transparence & suivi</span>
+          </div>
+          <div class="card-body">
+            <div class="steps">
+              <div class="step">
+                <div class="step-index">1</div>
+                <span class="label">Accueil & diagnostic</span>
+                <span class="time">10–15 min</span>
+              </div>
+              <div class="step">
+                <div class="step-index">2</div>
+                <span class="label">Établissement du devis</span>
+                <span class="time">Gratuit</span>
+              </div>
+              <div class="step">
+                <div class="step-index">3</div>
+                <span class="label">Intervention à l’atelier</span>
+                <span class="time">Selon complexité</span>
+              </div>
+              <div class="step">
+                <div class="step-index">4</div>
+                <span class="label">Contrôles finaux & restitution</span>
+                <span class="time">Tests de marche</span>
+              </div>
+            </div>
+            <p style="margin-top:8px; font-size:11px; color:var(--text-muted);">
+              *Les délais sont donnés à titre indicatif et peuvent varier selon la charge de
+              l’atelier et la disponibilité des pièces.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="stack">
+        <!-- Galerie -->
+        <section id="galerie" class="card reveal">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-eyebrow">Galerie</div>
+              <div class="card-title">Quelques pièces passées entre nos mains</div>
+            </div>
+            <span class="card-tag">Avant / Après</span>
+          </div>
+
+          <div class="card-body">
+            <div class="gallery-grid">
+              <div class="gallery-item">
+                <img
+                  src="https://i.ebayimg.com/images/g/3w0AAOSwZPBiPU0B/s-l1600.jpg"
+                  alt="Montre avant et après restauration"
+                />
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="https://avatars.mds.yandex.net/i?id=83d6dcc09bbfdb3bb8197c669f23e23d0df70094-6994724-images-thumbs&amp;n=13"
+                  alt="Détail horloger en gros plan"
+                />
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="https://i.ebayimg.com/images/g/7nMAAOSwcY9iPU0W/s-l1200.jpg"
+                  alt="Montre de luxe polie et révisée"
+                />
+              </div>
+            </div>
+            <p style="margin-top:10px; font-size:11px;">
+              Photos d’illustration. Votre montre bénéficiera du même niveau d’attention
+              et de soin.
+            </p>
+          </div>
+        </section>
+
+        <!-- Horaires & contact -->
+        <section id="contact" class="card reveal">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-eyebrow">Contact</div>
+              <div class="card-title">Réserver un créneau à l’atelier</div>
+            </div>
+            <span class="card-tag">Sur rendez-vous conseillé</span>
+          </div>
+
+          <div class="card-body">
+            <div class="info-row">
+              <div>
+                <strong>Horaires habituels *</strong>
+                <div class="hours-grid">
+                  <span class="day">Lundi</span>
+                  <span class="hour">Fermé</span>
+
+                  <span class="day">Mardi</span>
+                  <span class="hour">09:30 – 12:30 / 14:00 – 18:30</span>
+
+                  <span class="day">Mercredi</span>
+                  <span class="hour">09:30 – 12:30 / 14:00 – 18:30</span>
+
+                  <span class="day">Jeudi</span>
+                  <span class="hour">09:30 – 12:30 / 14:00 – 18:30</span>
+
+                  <span class="day">Vendredi</span>
+                  <span class="hour">09:30 – 12:30 / 14:00 – 18:30</span>
+
+                  <span class="day">Samedi</span>
+                  <span class="hour">10:00 – 17:00</span>
+
+                  <span class="day">Dimanche</span>
+                  <span class="hour">Fermé</span>
+                </div>
+                <p style="font-size:11px; margin-top:6px; color:var(--text-muted);">
+                  *Horaires indicatifs, susceptibles d’évoluer. N’hésitez pas à appeler avant de
+                  vous déplacer.
+                </p>
+              </div>
+            </div>
+
+            <div class="info-row">
+              <div>
+                <strong>Coordonnées</strong>
+                <div class="contact-list">
+                  <div class="contact-line">
+                    <span class="contact-label">Téléphone</span>
+                    <span class="contact-value">
+                      <a href="tel:+33672566450">+33 6 72 56 64 50</a>
+                    </span>
+                  </div>
+                  <div class="contact-line">
+                    <span class="contact-label">E-mail</span>
+                    <span class="contact-value">
+                      <a href="mailto:support@arivento.shop">support@arivento.shop</a>
+                    </span>
+                  </div>
+                  <div class="contact-line">
+                    <span class="contact-label">Adresse</span>
+                    <span class="contact-value">
+                      RUE DE LA PAIX 10100<br />Romilly-sur-Seine, Grand Est – France
+                    </span>
+                  </div>
+                </div>
+
+                <div class="map-pill">
+                  <div class="map-pill-left">
+                    <span class="map-pill-badge">Accès</span>
+                    <span>À quelques minutes du centre-ville de Romilly-sur-Seine.</span>
+                    <span style="font-size:11px; color:var(--text-muted);">
+                      Parking à proximité, accès facile en voiture.
+                    </span>
+                  </div>
+                  <div class="map-dot">
+                    <span style="width:10px; height:10px; border-radius:50%; background:#f4cf6a;"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ruler"></div>
+
+            <div class="guarantees">
+              <div class="guarantee-item">
+                <div class="guarantee-title">Devis transparent</div>
+                <div>
+                  Aucun travail réalisé sans votre accord préalable sur le devis.
+                </div>
+              </div>
+              <div class="guarantee-item">
+                <div class="guarantee-title">Suivi</div>
+                <div>
+                  Explications claires lors de la restitution & conseils d’entretien.
+                </div>
+              </div>
+              <div class="guarantee-item">
+                <div class="guarantee-title">Soin des détails</div>
+                <div>
+                  Respect de l’intégrité esthétique et technique de votre montre.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <span>© <strong>AM ROMILLY</strong> – Atelier de réparation horlogère, Romilly-sur-Seine.</span>
+      <span>Site vitrine créatif – contenu modifiable selon vos besoins.</span>
+    </footer>
+  </div>
+
+  <script>
+    // Scroll reveal
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.18 }
+    );
+    revealElements.forEach((el) => observer.observe(el));
+
+    // Active nav link on scroll
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll("nav a");
+
+    function setActiveLink() {
+      let currentId = "accueil";
+      const scrollY = window.pageYOffset;
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        const offsetTop = rect.top + window.scrollY - 140;
+        if (scrollY >= offsetTop) {
+          currentId = section.id;
+        }
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.toggle(
+          "active",
+          link.getAttribute("href") === "#" + currentId
+        );
+      });
+    }
+
+    window.addEventListener("scroll", setActiveLink);
+    window.addEventListener("load", setActiveLink);
+  </script>
+</body>
+</html>
